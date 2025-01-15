@@ -8,6 +8,7 @@ require('dotenv').config(); // Load environment variables from .env
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const TOKEN_ENDPOINT = process.env.TOKEN_ENDPOINT;
+const RESOURCE = process.env.RESOURCE;
 
 // Create the function to fetch the access token
 const getAccessToken = async () => {
@@ -15,7 +16,7 @@ const getAccessToken = async () => {
     grant_type: "client_credentials",
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
-    resource: "3676d991-6539-461e-b2cc-d38a1fe63f30", // Example resource, replace with actual
+    resource: RESOURCE, 
   });
 
   try {
@@ -34,3 +35,5 @@ const getAccessToken = async () => {
 
 // Call the function to get the access token
 getAccessToken();
+
+module.exports = getAccessToken;
