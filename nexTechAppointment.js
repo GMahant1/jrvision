@@ -1,6 +1,6 @@
 // dataFetch.js
 
-const getAccessToken = require('./nexTechAuth'); // Import getAccessToken from auth.js
+const getAccessToken = require('./globalAuth'); // Import getAccessToken from auth.js
 require('dotenv').config();
 const axios = require("axios");
 
