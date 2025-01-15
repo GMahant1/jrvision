@@ -11,7 +11,7 @@ const NX_PRACTICE_ID = process.env.NX_PRACTICE_ID;
 const fetchDataWithAuthToken = async () => {
   try {
     // Get the auth token
-    const token = await getAccessToken();
+    const token = await getAccessToken("nextech");
     
     // Make the GET request with the token
     const response = await axios.get(APPOINTMENT_ENDPOINT, {
