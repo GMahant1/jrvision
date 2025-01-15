@@ -5,7 +5,7 @@ require('dotenv').config();
 const axios = require("axios");
 
 // Load environment variables
-const API_ENDPOINT = process.env.API_ENDPOINT;
+const APPOINTMENT_ENDPOINT = process.env.APPOINTMENT_ENDPOINT;
 const NX_PRACTICE_ID = process.env.NX_PRACTICE_ID;
 
 const fetchDataWithAuthToken = async () => {
@@ -14,7 +14,7 @@ const fetchDataWithAuthToken = async () => {
     const token = await getAccessToken();
     
     // Make the GET request with the token
-    const response = await axios.get(API_ENDPOINT, {
+    const response = await axios.get(APPOINTMENT_ENDPOINT, {
       headers: {
         "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
         "nx-practice-id": NX_PRACTICE_ID,
