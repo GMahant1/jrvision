@@ -1,44 +1,40 @@
 // dataFetch.js
 
-const getAccessToken = require('./auth'); // Import getAccessToken from auth.js
+const getAccessToken = require('./nexTechAuth'); // Import getAccessToken from auth.js
 require('dotenv').config();
 const axios = require("axios");
 
 // Load environment variables
-const APPOINTMENT_ENDPOINT = process.env.APPOINTMENT_ENDPOINT;
+const PATIENT_ENDPOINT = process.env.PATIENT_ENDPOINT;
 const NX_PRACTICE_ID = process.env.NX_PRACTICE_ID;
 
 const fetchDataWithAuthToken = async () => {
   try {
     // Get the auth token
     const token = await getAccessToken();
-    
+
     // Make the GET request with the token
-    const response = await axios.get(APPOINTMENT_ENDPOINT, {
+    const response = await axios.get(PATIENT_ENDPOINT, {
       headers: {
         "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
         "nx-practice-id": NX_PRACTICE_ID,
       },
     });
 
-    const appointment_list = [];
+    const name_and_id = [];
 
     if (response.data) {
       response.data.entry.map((x) => {
-        appointment_list.push({
+        name_and_id.push({
+          name: x.resource.name[0].text,
           id: x.resource.id,
-          description: x.resource.description,
-          start: x.resource.start,
-          end: x.resource.end,
-          participant: [x.resource.participant[0].actor.reference, x.resource.participant[1].actor.reference, x.resource.participant[2].actor.display],
-          // participant: x.resource.participant[0].actor.reference,
         });
       });
     }
 
-    console.log(appointment_list);
+    console.log(name_and_id);
 
-    //console.log("Fetched data:", response.data);
+    // console.log("Fetched data:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching data with token:", error);
