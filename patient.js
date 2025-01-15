@@ -12,7 +12,7 @@ const fetchDataWithAuthToken = async () => {
   try {
     // Get the auth token
     const token = await getAccessToken();
-    
+
     // Make the GET request with the token
     const response = await axios.get(PATIENT_ENDPOINT, {
       headers: {
@@ -21,7 +21,20 @@ const fetchDataWithAuthToken = async () => {
       },
     });
 
-    console.log("Fetched data:", response.data);
+    const name_and_id = [];
+
+    if (response.data) {
+      response.data.entry.map((x) => {
+        name_and_id.push({
+          name: x.resource.name[0].text,
+          id: x.resource.id,
+        });
+      });
+    }
+
+    console.log(name_and_id);
+
+    // console.log("Fetched data:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching data with token:", error);
