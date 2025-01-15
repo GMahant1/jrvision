@@ -21,7 +21,24 @@ const fetchDataWithAuthToken = async () => {
       },
     });
 
-    console.log("Fetched data:", response.data);
+    const appointment_list = [];
+
+    if (response.data) {
+      response.data.entry.map((x) => {
+        appointment_list.push({
+          id: x.resource.id,
+          description: x.resource.description,
+          start: x.resource.start,
+          end: x.resource.end,
+          participant: [x.resource.participant[0].actor.reference, x.resource.participant[1].actor.reference, x.resource.participant[2].actor.display],
+          // participant: x.resource.participant[0].actor.reference,
+        });
+      });
+    }
+
+    console.log(appointment_list);
+
+    //console.log("Fetched data:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching data with token:", error);
