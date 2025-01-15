@@ -1,5 +1,5 @@
 const axios = require('axios');
-const getAccessToken = require('./auth'); // Import the getAccessToken function
+const getAccessToken = require('./globalAuth'); // Import the getAccessToken function
 require('dotenv').config(); // Load environment variables
 
 // Google Calendar API endpoint

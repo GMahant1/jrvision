@@ -1,3 +1,5 @@
+// Import required modules
+const axios = require('axios');
 require('dotenv').config(); // Load environment variables from .env
 
 // Function to dynamically retrieve environment variables based on a prefix
@@ -28,6 +30,8 @@ const getAccessToken = async (provider) => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
     });
 
+    console.log(response);
+
     // Log the response from the API
     console.log("Access Token:", response.data.access_token);
     return response.data.access_token;
@@ -39,4 +43,4 @@ const getAccessToken = async (provider) => {
 
 // Example usage
 // const provider = "google"; // Change this to "nextech" or other prefixes
-getAccessToken(provider);
+module.exports = getAccessToken;
