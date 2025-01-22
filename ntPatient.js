@@ -29,8 +29,32 @@ const fetchDataWithAuthToken = async () => {
         });
       });
     }
+    /// to do 
+    //  response.data.entry(map).resouce.extension[0] 
+    //  response.data.entry(map).resouce.extension[2] 
+    //  response.data.entry(map).resouce.extension[3] 
+    //  response.data.entry(map).resouce.extension[4] 
+    //  response.data.entry(map).resouce.extension[5] 
+    //  response.data.entry(map).resouce.extension[6] 
+    //  response.data.entry(map).resouce.extension[8] 
+    //  response.data.entry(map).resouce.identifier[0].value 
+    //  response.data.entry(map).resouce.identifier[1].value 
+    //  response.data.entry(map).resouce.name[0].family 
+    //  response.data.entry(map).resouce.name[0].given 
+    //  response.data.entry(map).resouce.telecom[0].*
+    //  response.data.entry(map).resouce.gender
+    //  response.data.entry(map).resouce.birthDate
+    //  response.data.entry(map).resouce.address[0].*
+    //  response.data.entry(map).resouce.maritalStatus.coding.OBJ
+    //  response.data.entry(map).resouce.maritalStatus.text
+    //  response.data.entry(map).resouce.communication[0].language.OBJ
+    //  response.data.entry(map).resouce.communication[0].preferred.BOOL
+    //  response.data.entry(map).resouce.generalPractitioner[0].reference, display
+
+
 
     console.log(name_and_id);
+    // console.log(response.data.entry[0].resource);
 
     // console.log("Fetched data:", response.data);
     return response.data;

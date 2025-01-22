@@ -29,12 +29,14 @@ const fetchDataWithAuthToken = async () => {
           start: x.resource.start,
           end: x.resource.end,
           participant: [x.resource.participant[0].actor.reference, x.resource.participant[1].actor.reference, x.resource.participant[2].actor.display],
+          example: [x.resource.extension[0], x.resource.extension[1], x.resource.extension[2]]
           // participant: x.resource.participant[0].actor.reference,
         });
       });
     }
 
-    console.log(appointment_list);
+    // console.log(appointment_list);
+    console.log(response.data.entry[0].resource);
 
     //console.log("Fetched data:", response.data);
     return response.data;
