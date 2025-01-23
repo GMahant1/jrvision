@@ -25,16 +25,18 @@ const fetchAppointment = async () => {
       response.data.entry.map((x) => {
         appointment_list.push({
           id: x.resource.id,
+          status: x.resource.status,
           description: x.resource.description,
           start: x.resource.start,
           end: x.resource.end,
-          participant: [x.resource.participant[0].actor.reference, x.resource.participant[1].actor.reference, x.resource.participant[2].actor.display],
-          extra: [x.resource.extension[0], x.resource.extension[1], x.resource.extension[2]]
+          participant: [x.resource.participant[0].actor.display, x.resource.participant[1].actor.reference, x.resource.participant[2].actor.display],
+          extra: x.resource.extension
         });
       });
     }
-
-    // console.log(appointment_list[0]);
+    const count = response.data.total;
+    // console.log(response.data.entry[0].resource);
+    // console.log(appointment_list);
     return appointment_list;
   } catch (error) {
     console.error("Error fetching data with token:", error);
