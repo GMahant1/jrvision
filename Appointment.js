@@ -35,6 +35,7 @@ const fetchAppointment = async () => {
       });
     }
     const count = response.data.total;
+    // APPOINTMENT_ENDPOINT=https://api.pm.nextech.com/api/Appointment?date=lt2025-02-01&date=gt2025-01-24
     // console.log(response.data.entry[0].resource);
     // console.log(appointment_list);
     return appointment_list;
