@@ -190,7 +190,7 @@ async function createEventsFromAppointments(auth) {
 
   for (const appointment of appointment_list) {
     const event = {
-      summary: appointment.extra[2].valueReference.display ?? 'No Title Provided',
+      // summary: appointment.extra[2].valueReference.display ?? 'No Title Provided',
       location: '12703 Apollo Dr, Dale City, VA 22193, USA',
       description: appointment.description || 'No Description Provided',
       start: {
@@ -218,7 +218,7 @@ async function createEventsFromAppointments(auth) {
       });
       console.log(`Event created: ${response.data.htmlLink}`);
     } catch (error) {
-      console.error(`Error creating event for ${appointment.extra[2].valueReference.display || 'Untitled Event'}:`, error);
+      console.error(`Error creating event for ${appointment.id || 'Untitled Event'}:`, error);
     }
   }
 }
@@ -229,13 +229,13 @@ authorize()
     // console.log('Listing calendars:');
     // await listCalendars(auth);
 
-    console.log('\nListing events from the primary calendar:');
-    await listEvents(auth);
+    // console.log('\nListing events from the primary calendar:');
+    // await listEvents(auth);
 
     // console.log('\nCreating an event:');
     // await createEvent(auth);
 
-    // deleteEvent(auth, calendarId, 'q12o9ag7hcehov5netshb15hls');
+    // deleteEvent(auth, calendarId, 'qvdnrvm6jh2npvkddpd9go26mc');
 
     // await createEventsFromAppointments(auth);
   })
