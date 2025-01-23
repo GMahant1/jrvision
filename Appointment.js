@@ -35,7 +35,7 @@ const fetchAppointment = async () => {
       });
     }
 
-    console.log(appointment_list[0]);
+    // console.log(appointment_list[0]);
     // console.log(response.data.entry);
 
     //console.log("Fetched data:", response.data);

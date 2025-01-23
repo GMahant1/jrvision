@@ -24,7 +24,7 @@ const getAccessToken = async () => {
     });
 
     // Log the response from the API
-    console.log('Access Token:', response.data.access_token);
+    // console.log('Access Token:', response.data.access_token);
     return response.data.access_token;
   } catch (error) {
     console.error('Error fetching access token:', error);
