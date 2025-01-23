@@ -53,7 +53,7 @@ const fetchPatient = async () => {
 
 
 
-    console.log(name_and_id);
+    // console.log(name_and_id);
     // console.log(response.data.entry);
 
     // console.log("Fetched data:", response.data);
