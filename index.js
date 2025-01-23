@@ -82,8 +82,7 @@ async function listEvents(auth) {
     singleEvents: true,
     orderBy: 'startTime',
   });
-  // console.log(res.data.items[0]);
-  // console.log(res.data.items[1]);
+
   const events = res.data.items;
   if (!events || events.length === 0) {
     console.log('No upcoming events found.');
@@ -126,7 +125,6 @@ async function listCalendars(auth) {
     return;
   }
   console.log('Calendars:');
-  // console.log(calendars);
   calendars.forEach((calendar) => {
     console.log(`- ${calendar.summary} (ID: ${calendar.id})`);
   });
@@ -185,21 +183,60 @@ async function createEvent(auth) {
   }
 }
 
+// new test function for mass input 
+async function createEventsFromAppointments(auth) {
+  const calendar = google.calendar({version: 'v3', auth});
+  const appointment_list = await fetchAppointment();
+
+  for (const appointment of appointment_list) {
+    const event = {
+      summary: appointment.extra[2].valueReference.display ?? 'No Title Provided',
+      location: '12703 Apollo Dr, Dale City, VA 22193, USA',
+      description: appointment.description || 'No Description Provided',
+      start: {
+        dateTime: appointment.start, // Must be ISO 8601 format
+        timeZone: 'America/New_York',
+      },
+      end: {
+        dateTime: appointment.end, // Must be ISO 8601 format
+        timeZone: 'America/New_York',
+      },
+      // attendees: appointment.attendees?.map(email => ({email})) || [],
+      reminders: {
+        useDefault: false,
+        overrides: [
+          {method: 'email', minutes: 24 * 60},
+          {method: 'popup', minutes: 10},
+        ],
+      },
+    };
+
+    try {
+      const response = await calendar.events.insert({
+        calendarId: calendarId,
+        resource: event,
+      });
+      console.log(`Event created: ${response.data.htmlLink}`);
+    } catch (error) {
+      console.error(`Error creating event for ${appointment.extra[2].valueReference.display || 'Untitled Event'}:`, error);
+    }
+  }
+}
+
 // Choose the function to run after authorization.
 authorize()
   .then(async (auth) => {
     // console.log('Listing calendars:');
     // await listCalendars(auth);
 
-    // console.log('\nListing events from the primary calendar:');
-    // await listEvents(auth);
-
-    const appointments = await fetchAppointment();
-    console.log(appointments);
+    console.log('\nListing events from the primary calendar:');
+    await listEvents(auth);
 
     // console.log('\nCreating an event:');
     // await createEvent(auth);
 
-    // deleteEvent(auth, calendarId, 'i1b1d0t1pns9scmqobo23qh92c_20250124T160000Z')
+    // deleteEvent(auth, calendarId, 'q12o9ag7hcehov5netshb15hls');
+
+    // await createEventsFromAppointments(auth);
   })
   .catch(console.error);
