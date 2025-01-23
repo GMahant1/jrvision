@@ -4,8 +4,8 @@ const process = require('process');
 const {authenticate} = require('@google-cloud/local-auth');
 const {google} = require('googleapis');
 require('dotenv').config();
-const fetchAppointment = require('./nexTech/Appointment');
-const fetchPatient = require('./nexTech/Patient');
+const fetchAppointment = require('./Appointment');
+const fetchPatient = require('./Patient');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
@@ -139,11 +139,11 @@ async function listCalendars(auth) {
 async function createEvent(auth) {
   const calendar = google.calendar({version: 'v3', auth});
   //fetch appointment data
-  const appointments = await fetchAppointment();
-  console.log(appointments);
+  // const appointments = await fetchAppointment();
+  // console.log(appointments);
   //fetch patient data
-  const patient = await fetchPatient();
-  console.log(patients);
+  // const patient = await fetchPatient();
+  // console.log(patient);
   //map fields
   //push to google 
   const event = {
@@ -191,8 +191,11 @@ authorize()
     // console.log('Listing calendars:');
     // await listCalendars(auth);
 
-    console.log('\nListing events from the primary calendar:');
-    await listEvents(auth);
+    // console.log('\nListing events from the primary calendar:');
+    // await listEvents(auth);
+
+    const appointments = await fetchAppointment();
+    console.log(appointments);
 
     // console.log('\nCreating an event:');
     // await createEvent(auth);
