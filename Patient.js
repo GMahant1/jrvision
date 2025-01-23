@@ -1,4 +1,4 @@
-const getAccessToken = require('./nexTechAuth'); // Import getAccessToken from auth.js
+const getAccessToken = require('./Auth'); // Import getAccessToken from auth.js
 require('dotenv').config();
 const axios = require("axios");
 
@@ -6,7 +6,7 @@ const axios = require("axios");
 const PATIENT_ENDPOINT = process.env.PATIENT_ENDPOINT;
 const NX_PRACTICE_ID = process.env.NX_PRACTICE_ID;
 
-const fetchDataWithAuthToken = async () => {
+const fetchPatient = async () => {
   try {
     // Get the auth token
     const token = await getAccessToken();
@@ -54,7 +54,7 @@ const fetchDataWithAuthToken = async () => {
 
 
     console.log(name_and_id);
-    // console.log(response.data.entry[0].resource);
+    // console.log(response.data.entry);
 
     // console.log("Fetched data:", response.data);
     return response.data;
@@ -65,4 +65,6 @@ const fetchDataWithAuthToken = async () => {
 };
 
 // Call the function to get the access token
-fetchDataWithAuthToken();
+fetchPatient();
+
+module.exports = fetchPatient;
