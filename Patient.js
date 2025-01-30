@@ -54,7 +54,7 @@ const fetchPatient = async () => {
 
 
     // console.log(name_and_id);
-    // console.log(response.data.entry);
+    // console.log(response.data.entry[0].resource);
 
     // console.log("Fetched data:", response.data);
     return response.data;

@@ -136,14 +136,7 @@ async function listCalendars(auth) {
  */
 async function createEvent(auth) {
   const calendar = google.calendar({version: 'v3', auth});
-  //fetch appointment data
-  // const appointments = await fetchAppointment();
-  // console.log(appointments);
-  //fetch patient data
-  // const patient = await fetchPatient();
-  // console.log(patient);
-  //map fields
-  //push to google 
+
   const event = {
     summary: 'Not Sure What to Put Here or What you Will SEe',
     location: '12703 Apollo Dr, Dale City, VA 22193, USA',
@@ -189,8 +182,11 @@ async function createEventsFromAppointments(auth) {
   const appointment_list = await fetchAppointment();
 
   for (const appointment of appointment_list) {
+    // console.log(appointment);
+    // break;
+    const appointmentTypeObject = appointment.extra.find(item => item.url === 'appointment-type');
     const event = {
-      // summary: appointment.extra[2].valueReference.display ?? 'No Title Provided',
+      summary: `${appointment.participant[0]} - ${appointmentTypeObject.valueReference.display}` ?? 'ERROR',
       location: '12703 Apollo Dr, Dale City, VA 22193, USA',
       description: appointment.description || 'No Description Provided',
       start: {
@@ -226,16 +222,13 @@ async function createEventsFromAppointments(auth) {
 // Choose the function to run after authorization.
 authorize()
   .then(async (auth) => {
-    // console.log('Listing calendars:');
     // await listCalendars(auth);
 
-    // console.log('\nListing events from the primary calendar:');
-    // await listEvents(auth);
+    await listEvents(auth);
 
-    // console.log('\nCreating an event:');
     // await createEvent(auth);
 
-    // deleteEvent(auth, calendarId, 'qvdnrvm6jh2npvkddpd9go26mc');
+    // deleteEvent(auth, calendarId, 'gchdeq1djmsvcpn8ab8r25070o');
 
     // await createEventsFromAppointments(auth);
   })
