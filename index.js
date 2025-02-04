@@ -1,8 +1,8 @@
 const fs = require('fs').promises;
 const path = require('path');
 const process = require('process');
-const {authenticate} = require('@google-cloud/local-auth');
-const {google} = require('googleapis');
+const { authenticate } = require('@google-cloud/local-auth');
+const { google } = require('googleapis');
 require('dotenv').config();
 const fetchAppointment = require('./Appointment');
 const fetchPatient = require('./Patient');
@@ -14,7 +14,7 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 // time.
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
-const calendarId = process.env.JR_MAIN_CALENDAR_ID
+const calendarId = process.env.JR_MAIN_CALENDAR_ID;
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -74,11 +74,11 @@ async function authorize() {
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
 async function listEvents(auth) {
-  const calendar = google.calendar({version: 'v3', auth});
+  const calendar = google.calendar({ version: 'v3', auth });
   const res = await calendar.events.list({
     calendarId: calendarId,
     timeMin: new Date().toISOString(),
-    maxResults: 10,
+    maxResults: 25,
     singleEvents: true,
     orderBy: 'startTime',
   });
@@ -100,7 +100,7 @@ async function listEvents(auth) {
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
 async function deleteEvent(auth, calendarId, eventId) {
-  const calendar = google.calendar({version: 'v3', auth});
+  const calendar = google.calendar({ version: 'v3', auth });
   try {
     await calendar.events.delete({
       calendarId: calendarId,
@@ -117,7 +117,7 @@ async function deleteEvent(auth, calendarId, eventId) {
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
 async function listCalendars(auth) {
-  const calendar = google.calendar({version: 'v3', auth});
+  const calendar = google.calendar({ version: 'v3', auth });
   const res = await calendar.calendarList.list();
   const calendars = res.data.items;
   if (!calendars || calendars.length === 0) {
@@ -135,7 +135,7 @@ async function listCalendars(auth) {
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
 async function createEvent(auth) {
-  const calendar = google.calendar({version: 'v3', auth});
+  const calendar = google.calendar({ version: 'v3', auth });
 
   const event = {
     summary: 'Not Sure What to Put Here or What you Will SEe',
@@ -153,14 +153,14 @@ async function createEvent(auth) {
       'RRULE:FREQ=DAILY;COUNT=2',
     ],
     attendees: [
-      {email: 'PLEASE@example.com'},
-      {email: 'WORK@example.com'},
+      { email: 'PLEASE@example.com' },
+      { email: 'WORK@example.com' },
     ],
     reminders: {
       useDefault: false,
       overrides: [
-        {method: 'email', minutes: 24 * 60},
-        {method: 'popup', minutes: 10},
+        { method: 'email', minutes: 24 * 60 },
+        { method: 'popup', minutes: 10 },
       ],
     },
   };
@@ -178,7 +178,7 @@ async function createEvent(auth) {
 
 // new test function for mass input 
 async function createEventsFromAppointments(auth) {
-  const calendar = google.calendar({version: 'v3', auth});
+  const calendar = google.calendar({ version: 'v3', auth });
   const appointment_list = await fetchAppointment();
 
   for (const appointment of appointment_list) {
@@ -201,8 +201,8 @@ async function createEventsFromAppointments(auth) {
       reminders: {
         useDefault: false,
         overrides: [
-          {method: 'email', minutes: 24 * 60},
-          {method: 'popup', minutes: 10},
+          { method: 'email', minutes: 24 * 60 },
+          { method: 'popup', minutes: 10 },
         ],
       },
     };
@@ -219,12 +219,31 @@ async function createEventsFromAppointments(auth) {
   }
 }
 
+async function getCalendarEvent(auth, calendarId, eventId) {
+  const calendar = google.calendar({ version: 'v3', auth });
+
+  try {
+    const response = await calendar.events.get({
+      calendarId: calendarId,
+      eventId: eventId,
+    });
+
+    console.log('Event Details:', response.data);
+    return response.data; // Return event details if needed
+  } catch (error) {
+    console.error(`Error fetching event ${eventId}:`, error.message);
+    return null;
+  }
+}
+
 // Choose the function to run after authorization.
 authorize()
   .then(async (auth) => {
     // await listCalendars(auth);
 
-    await listEvents(auth);
+    // await listEvents(auth);
+
+    await getCalendarEvent(auth, calendarId, 'djjqbnol0hh204q1ptd3n1pmug');
 
     // await createEvent(auth);
 

@@ -21,7 +21,9 @@ const fetchAppointment = async () => {
 
     const appointment_list = [];
 
-    if (response.data) {
+    // console.log(response.data);
+
+    if (response.data.entry) {
       response.data.entry.map((x) => {
         appointment_list.push({
           id: x.resource.id,
@@ -35,6 +37,7 @@ const fetchAppointment = async () => {
       });
     }
     const count = response.data.total;
+    // console.log(count);
     // APPOINTMENT_ENDPOINT=https://api.pm.nextech.com/api/Appointment?date=lt2025-02-01&date=gt2025-01-24
     // console.log(response.data.entry[1].resource.participant);  //one single appointment
     // console.log(appointment_list);
