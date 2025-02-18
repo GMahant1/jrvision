@@ -115,8 +115,8 @@ const newAppointment = {
 };
 
 // Call the function to create the appointment
-createAppointment(newAppointment)
-  .then(response => console.log("Created Appointment:", response))
-  .catch(err => console.error(err));
+// createAppointment(newAppointment)
+//   .then(response => console.log("Created Appointment:", response))
+//   .catch(err => console.error(err));
 
 module.exports = createAppointment;
