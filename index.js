@@ -219,6 +219,25 @@ async function createEventsFromAppointments(auth) {
   }
 }
 
+const extractPatientInfo = (text) => {
+  const nameMatch = text.match(/<b>Booked by<\/b>\s*([\w'-]+)\s+([\w'-]+)/);
+  const dobMatch = text.match(/<br><b>Date of Birth;.*?<\/b>\s*(\d{8})/);
+
+  if (!nameMatch || !dobMatch) {
+    throw new Error("Could not extract patient information.");
+  }
+
+  const firstName = nameMatch[1];
+  const lastName = nameMatch[2];
+  const rawDOB = dobMatch[1];
+
+  // Format DOB from MMDDYYYY to MM/DD/YYYY
+  const formattedDOB = `${rawDOB.substring(0, 2)}/${rawDOB.substring(2, 4)}/${rawDOB.substring(4)}`;
+
+  return { firstName, lastName, dob: formattedDOB };
+};
+
+
 async function getCalendarEvent(auth, calendarId, eventId) {
   const calendar = google.calendar({ version: 'v3', auth });
 
@@ -228,7 +247,11 @@ async function getCalendarEvent(auth, calendarId, eventId) {
       eventId: eventId,
     });
 
-    console.log('Event Details:', response.data);
+    const patientInfo = extractPatientInfo(response.data.description);
+
+    console.log(patientInfo);
+
+    // console.log('Event Details:', response.data.description);
     return response.data; // Return event details if needed
   } catch (error) {
     console.error(`Error fetching event ${eventId}:`, error.message);
@@ -241,9 +264,9 @@ authorize()
   .then(async (auth) => {
     // await listCalendars(auth);
 
-    // await listEvents(auth);
+    await listEvents(auth);
 
-    await getCalendarEvent(auth, calendarId, 'djjqbnol0hh204q1ptd3n1pmug');
+    // await getCalendarEvent(auth, calendarId, 'e6d89ndrpq8u2aah19c240ddvo');
 
     // await createEvent(auth);
 
