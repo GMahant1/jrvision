@@ -3,12 +3,12 @@ require('dotenv').config();
 const axios = require("axios");
 
 // Load environment variables
-const firstName = 'Young';
-const lastName = 'Pitcher';
-const birthDate = '1954-09-20';
+// const firstName = 'Young';
+// const lastName = 'Pitcher';
+// const birthDate = '1954-09-20';
 const NX_PRACTICE_ID = process.env.NX_PRACTICE_ID;
 
-const fetchPatient = async (firstName, lastName, birthDate) => {
+const patientExist = async (firstName, lastName, birthDate) => {
   try {
     // Get the auth token
     const token = await getAccessToken();
@@ -24,10 +24,7 @@ const fetchPatient = async (firstName, lastName, birthDate) => {
       },
     });
 
-    console.log(response.data.total);
-
-    // console.log("Fetched data:", response.data);
-    return response.data.total;
+    return response.data.total === 1;
   } catch (error) {
     console.error("Error fetching data with token:", error);
     throw error;
@@ -35,6 +32,6 @@ const fetchPatient = async (firstName, lastName, birthDate) => {
 };
 
 // Call the function to get the access token
-fetchPatient(firstName, lastName, birthDate);
+// patientExist(firstName, lastName, birthDate);
 
-module.exports = fetchPatient;
+module.exports = patientExist;
