@@ -2,10 +2,6 @@ const getAccessToken = require('./Auth'); // Import getAccessToken from auth.js
 require('dotenv').config();
 const axios = require("axios");
 
-// Load environment variables
-// const firstName = 'Young';
-// const lastName = 'Pitcher';
-// const birthDate = '1954-09-20';
 const NX_PRACTICE_ID = process.env.NX_PRACTICE_ID;
 
 const patientExist = async (firstName, lastName, birthDate) => {
